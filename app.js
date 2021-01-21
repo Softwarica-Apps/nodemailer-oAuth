@@ -1,9 +1,23 @@
 require('dotenv').config();
-const { sendMail } = require("./mail");
+
+const { fork } = require('child_process');
 
 //execute the function
 try {
-    sendMail("web.softwarica@gmail.com");
+    let data={
+        clientAddress:"manjish77@gmail.com",
+        username:"160188",
+        link:"https://campus.softwarica.edu.np"
+    }
+    // console.log(data)
+    const calculation = fork("mail.js");
+        calculation.send(data);
+        calculation.on("message", async(response) => {
+            // console.log("here")
+            let result = await response;
+          console.log("Response is :",response);
+          console.log("Result is :",result)
+        });
 } catch (error) {
     console.error(error)
-} g
+} 
